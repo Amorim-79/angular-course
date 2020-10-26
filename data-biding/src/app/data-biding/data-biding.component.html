@@ -1,4 +1,83 @@
-<h1>{{ title }}</h1>
-<hr>
-<p>Resultado de uma soma: {{ 1 + 1 + 1000 }}</p>
+<section class="property-biding">
 
+    <article>
+        <h3>Interpolation / Ineterpolação</h3>
+        <p>String renderizada com interpolação: {{ url }}</p>
+        <p>Resultado de 1 + 1 é: {{ 1 + 1 }}</p>
+        <p>Resultado de 1 + 1 não é {{ 1 + 1 + getValor() }}</p>
+        <p>Curso de Angular e gosto do curso: {{ cursoAngular && getCurtirCurso() }}</p>
+    </article>
+
+    <br><br>
+
+    <article>
+        <h3>Property Binding</h3>
+        <img src="{{ urlImage }}">
+        <img [src]="urlImage">
+        <img bind-src="urlImage">
+    </article>
+
+    <br><br>
+
+    <article>
+        <h3>Class e Style Biding</h3>
+        <div>
+            Selecione uma classe:
+            <select #classe (change)="0">
+                <option value="alert-success">Sucesso</option>
+                <option value="alert-info">Info</option>
+                <option value="alert-warning">Alerta</option>
+                <option value="alert-danger">Erro</option>
+            </select>
+            <br><br>
+
+            <div class="alert {{ classe.value }}" role="alert">
+                Texto colorido conforme valor do combobox.
+            </div>
+
+            <div class="alert" role="alert" [class.alert-success]="classe.value === 'alert-success'">Sucesso</div>
+            <div class="alert" role="alert" [class.alert-info]="classe.value === 'alert-info'">Info</div>
+            <div class="alert" role="alert" [class.alert-warning]="classe.value === 'alert-warning'">Alerta</div>
+            <div class="alert" role="alert" [class.alert-danger]="classe.value === 'alert-danger'">Erro</div>
+        
+            <div class="alert alert-danger" role="alert" [style.display]="classe.value === 'alert-danger' ? 'block' : 'none'">
+                Esse texto somente aparece em caso de erro.
+            </div>
+
+        </div>
+    </article>
+
+    <br><br>
+
+    <article>
+        <h3>Event Biding</h3>
+        <div>
+            <button class="btn btn-primary" (click)="botaoClicado()">Me clique!</button>
+            
+            <br><br>
+
+            <input 
+                type="text" 
+                (keyup)="onKeyUp($event)" 
+                (keyup.enter)="salvaValor(campoInput.value)" 
+                (blur)="salvaValor(campoInput.value)"
+                #campoInput
+            />
+
+            <p>Valor atual: {{ valorAtual }}</p>
+            <p>Valor salvo: {{ valorSalvo }}</p>
+
+            <br><br>
+
+            <span 
+                (mouseover)="onMouseOverOut()" 
+                (mouseout)="onMouseOverOut()"
+                [class.highlight]="isMouseOver"
+            >
+                Passe o mouse sobre mim
+            </span>
+
+        </div>
+    </article>
+
+</section>
