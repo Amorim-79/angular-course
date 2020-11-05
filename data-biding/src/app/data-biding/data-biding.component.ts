@@ -40,6 +40,10 @@ export class DataBidingComponent implements OnInit {
     this.isMouseOver = !this.isMouseOver;
   }
 
+  changedValue(event): void {
+    console.log(event.newValue);
+  }
+
   constructor() { }
 
   ngOnInit(): void {

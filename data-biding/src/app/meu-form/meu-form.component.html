@@ -1,0 +1,34 @@
+<section>
+    <h3 class="text-align-center">Two-Way Data Biding</h3>
+
+    <form>
+        <input class="m-2" type="text" [ngModel]="user.firstName" name="firstName" (ngModelChange)="user.firstName = $event"/>
+        
+        <input class="m-2" type="text" name="lastName" bindon-ngModel="user.lastName" />
+        
+        <input class="m-2" type="text" name="age" [(ngModel)]="user.age" />
+        
+    </form>
+
+    <br><br>
+
+    <div>
+        <h6>Dados do Formulário</h6>
+        <ul>
+
+            <li>
+                <p>Primeiro Nome: {{ user.firstName }}</p>
+            </li>
+
+            <li>
+                <p>último Nome: {{ user.lastName }}</p>
+            </li>
+
+            <li>
+                <p>Idade: {{ user.age }}</p>
+            </li>
+
+        </ul>
+    </div>
+
+</section>
