@@ -1,0 +1,56 @@
+<h3>*NgIf</h3>
+
+<div *ngIf="mudarCurso">
+    <h5>Lista de Cursos</h5>
+    <ul>
+        <li *ngFor="let curso of cursos">
+            {{curso}}
+        </li>
+    </ul>
+</div>
+
+<div *ngIf="!mudarCurso">
+    <h5>Não há cursos para serem listados</h5>
+</div>
+
+<br>
+<button (click)="mudarCursos()" >Mostrar Cursos</button>
+<br>
+
+<h3>[Hidden]</h3>
+
+<div [hidden]="!mudarCurso">
+    <h5>Lista de Cursos</h5>
+    <ul>
+        <li *ngFor="let curso of cursos">
+            {{curso}}
+        </li>
+    </ul>
+</div>
+
+<div [hidden]="mudarCurso">
+    <h5>Não há cursos para serem listados</h5>
+</div>
+
+<br>
+
+<h4>Diretivas sem o * , utilizando o template</h4>
+
+<ng-template ngIf [ngIf]="mudarCurso">
+    <div>
+        <h5>Lista de Cursos</h5>
+        <ul>
+            <ng-template ngFor [ngForOf]="cursos" let-curso>
+                <li>
+                    {{curso}}
+                </li>
+            </ng-template>
+        </ul>
+    </div>
+</ng-template>
+
+<ng-template ngIf [ngIf]="!mudarCurso">
+    <div>
+        <h5>Não há cursos para serem listados</h5>
+    </div>
+</ng-template>
