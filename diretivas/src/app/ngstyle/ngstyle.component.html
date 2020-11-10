@@ -1,0 +1,32 @@
+<h3>ngStyle</h3>
+
+<br>
+
+<h5>Utilizando [style]</h5>
+
+<br>
+
+<p [style.backgroundColor]="colorBg ? 'yellow' : 'blue'">Texto com fundo</p>
+
+<button [style.backgroundColor]="colorBg ? 'yellow' : 'blue'" (click)="switchBg()">Trocar cor do fundo</button>
+
+<br>
+
+<h5>Utilizando [ngStyle]</h5>
+
+<br>
+
+<p 
+    [ngStyle]="{
+        'backgroundColor': colorBg ? 'yellow' : 'blue'
+    }">
+    Texto com fundo
+</p>
+
+<button 
+    [ngStyle]="{
+        'backgroundColor': colorBg ? 'yellow' : 'blue'
+    }" 
+    (click)="switchBg()">
+    Trocar cor do fundo
+</button>

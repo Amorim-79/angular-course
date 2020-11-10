@@ -1,0 +1,35 @@
+<h3>ngClass</h3>
+
+<br>
+
+<h5>Utilizando [class]</h5>
+
+<br>
+
+<i class="glyphicon" [class]="active ? 'glyphicon-star' : 'glyphicon-star-empty'" (click)="switchStar()"></i>
+
+<i class="glyphicon" [class]="active ? 'glyphicon-star-empty' : 'glyphicon-star'" (click)="switchStar()"></i>
+
+<br><br>
+
+<h5>Utilizando [ngClass]</h5>
+
+<br>
+
+<i 
+    class="glyphicon" 
+    [ngClass]="{
+        'glyphicon-star': active,
+        'glyphicon-star-empty': !active
+    }" 
+    (click)="switchStar()">
+</i>
+
+<i
+    class="glyphicon" 
+    [ngClass]="{
+        'glyphicon-star-empty': active,
+        'glyphicon-star': !active
+    }"
+    (click)="switchStar()">
+</i>
