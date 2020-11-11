@@ -7,6 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OperadorElvisComponent implements OnInit {
 
+  user = {
+    name: 'Pedro',
+    data: {
+      age: null,
+      status: 'Active',
+    },
+  };
+
   constructor() { }
 
   ngOnInit(): void {

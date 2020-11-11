@@ -1,1 +1,24 @@
 <h3>Diretivas customizadas</h3>
+
+<p appFundoAmarelo>Texto com cor de fundo customizada</p>
+
+<p appHighlightMouse [highlightColor]="'grey'" [defaultColor]="'brown'">Texto com cor de fundo customizada com Host Bidigng</p>
+
+<br><br>
+
+<div *ngIf="mudarCurso">
+    <h5>Lista de Cursos</h5>
+    <ul>
+        <li *ngFor="let curso of cursos">
+            {{curso}}
+        </li>
+    </ul>
+</div>
+
+<div *appNgElse="mudarCurso">
+    <h5>Não há cursos para serem listados</h5>
+</div>
+
+<br>
+<button (click)="mudarCursos()" >Mostrar Cursos</button>
+<br><br>

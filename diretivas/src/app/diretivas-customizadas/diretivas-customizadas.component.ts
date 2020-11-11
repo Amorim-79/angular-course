@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DiretivasCustomizadasComponent implements OnInit {
 
+  cursos = ['Angular', 'ReactJS'];
+  mudarCurso: boolean;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  mudarCursos(): void {
+    this.mudarCurso = !this.mudarCurso;
   }
 
 }
