@@ -1,0 +1,10 @@
+<h3>Pipes de Exemplo</h3>
+
+<p>Nome: {{ livro.name | uppercase | lowercase | camelcase }}</p>
+<p>Nota: {{ livro.rating | number: '1.1-1' }}</p>
+<p>Preço: {{ livro.price | currency }}</p>
+<p>Data: {{ livro.date | date: 'dd/MM/yyyy' }}</p>
+<p>Dados: {{ livro | json }}</p>
+
+<p>{{ asyncPipe | async }}</p>
+<p>{{ asyncPipe2 | async }}</p>
