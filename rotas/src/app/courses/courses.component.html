@@ -1,0 +1,10 @@
+<mat-card
+style="margin-bottom: 10px; max-width: 400px; cursor: pointer;" 
+dir="ltr" 
+fxLayoutGap="20px" 
+*ngFor="let course of courses"
+[routerLink]="[course.id]">
+        {{ course.name }}
+</mat-card>
+<br>
+<router-outlet></router-outlet>
