@@ -1,1 +1,20 @@
-<p>students-form works!</p>
+<div>
+
+	<input type="text" placeholder="ID" disabled [(ngModel)]="student.id">
+
+</div>
+<div>
+
+	<input type="text" placeholder="Nome" [(ngModel)]="student.name">
+
+
+</div>
+<div>
+
+	<input type="email" placeholder="Email" [(ngModel)]="student.email">
+
+</div>
+<button mat-button color="primary">
+	Editar
+	<mat-icon>send</mat-icon>
+</button>

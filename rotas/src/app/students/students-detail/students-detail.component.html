@@ -1,6 +1,10 @@
-<mat-card
-style="margin-bottom: 10px; max-width: 400px; cursor: pointer; background-color: gray;" 
-dir="ltr" 
-fxLayoutGap="20px">
-       O curso selecionado foi: {{ student.name }}
-</mat-card>
+<h3>ID</h3>
+<p>{{ student.id }}</p>
+<h3>Nome</h3>
+<p>{{ student.name }}</p>
+<h3>Email</h3>
+<p>{{ student.email }}</p>
+<button [routerLink]="'editar'" mat-button color="primary">
+	Editar
+	<mat-icon style="font-size: 20px;">send</mat-icon>
+</button>
