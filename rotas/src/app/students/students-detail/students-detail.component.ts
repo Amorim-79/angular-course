@@ -1,7 +1,8 @@
 import { ActivatedRoute } from '@angular/router';
-import { StudentsService } from './../students.service';
 import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { Student } from '../student.model';
 
 @Component({
   selector: 'app-students-detail',
@@ -14,13 +15,17 @@ export class StudentsDetailComponent implements OnInit, OnDestroy {
 
   student: any;
 
-  constructor(private studentsService: StudentsService, private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    let id: any;
-    this.inscricao = this.route.params.subscribe(params => {
-      id = params.id;
-      this.student = this.studentsService.getId(Number(id));
+    // let id: any;
+    // this.inscricao = this.route.params.subscribe(params => {
+    //   id = params.id;
+    //   this.student = this.studentsService.getId(Number(id));
+    // });
+
+    this.inscricao = this.route.data.subscribe((data: Student) => {
+      this.student = data.student;
     });
   }
 
