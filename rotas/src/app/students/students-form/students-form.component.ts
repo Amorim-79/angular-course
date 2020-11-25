@@ -21,7 +21,6 @@ export class StudentsFormComponent implements OnInit, OnDestroy {
     this.inscricao = this.route.params.subscribe(params => {
       id = params.id;
       this.student = this.studentsService.getId(Number(id));
-      console.log(this.student);
     });
   }
 
