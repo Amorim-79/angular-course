@@ -18,8 +18,7 @@ export class TemplateFormComponent implements OnInit {
     return !input.valid && input.touched;
   }
 
-  apllyCssError(input: any): any {
-    console.log(this.verifyValidTouched(input));
+  applyCssError(input: any): any {
     return {
       'was-validated': this.verifyValidTouched(input),
       'text-danger': this.verifyValidTouched(input),
@@ -57,7 +56,9 @@ export class TemplateFormComponent implements OnInit {
   }
 
   onSubmit(formData: any): void {
-    console.log(formData);
+    this.formsService.post(formData.value).subscribe(state => {
+      alert('Enviado com sucesso!');
+    });
   }
 
 }

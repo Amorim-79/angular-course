@@ -1,5 +1,5 @@
 <form #formData="ngForm" (ngSubmit)="onSubmit(formData)">
-    <div class="form-group" [ngClass]="apllyCssError(name)">
+    <div class="form-group" [ngClass]="applyCssError(name)">
         <label for="name">Nome</label>
         <input
             type="text" 
@@ -11,8 +11,9 @@
             ngModel
             #name="ngModel"
         >
+        <app-message-error *ngIf="verifyValidTouched(name)" message="Campo de preenchimento Obrigatório"></app-message-error>
     </div>
-    <div class="form-group" [ngClass]="apllyCssError(email)">
+    <div class="form-group" [ngClass]="applyCssError(email)">
         <label for="email">Email</label>
         <input 
             type="email" 
@@ -24,11 +25,12 @@
             ngModel
             #email="ngModel"
         >
+        <app-message-error *ngIf="verifyValidTouched(email)" message="Campo de preenchimento Obrigatório"></app-message-error>
     </div>
 
     <div ngModelGroup="adress">
         <div class="row">
-            <div class="form-group col-sm-3" [ngClass]="apllyCssError(cep)">
+            <div class="form-group col-sm-3" [ngClass]="applyCssError(cep)">
                 <label for="cep">CEP</label>
                 <input 
                     type="text" 
@@ -41,8 +43,9 @@
                     ngModel
                     #cep="ngModel"
                 >
+                <app-message-error *ngIf="verifyValidTouched(cep)" message="Campo de preenchimento Obrigatório"></app-message-error>
             </div>
-            <div class="form-group col-sm-3" [ngClass]="apllyCssError(number)">
+            <div class="form-group col-sm-3" [ngClass]="applyCssError(number)">
                 <label for="number">Número</label>
                 <input 
                     type="number" 
@@ -54,6 +57,7 @@
                     ngModel
                     #number="ngModel"
                 >
+                <app-message-error *ngIf="verifyValidTouched(number)" message="Campo de preenchimento Obrigatório"></app-message-error>
             </div>
             <div class="form-group col-sm-6">
                 <label for="complement">Complemento</label>
@@ -127,5 +131,5 @@
             </div>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary">Enviar</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!formData.valid">Enviar</button>
 </form>

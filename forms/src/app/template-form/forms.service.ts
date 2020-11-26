@@ -9,8 +9,8 @@ export class FormsService {
 
   constructor(private http: HttpClient) { }
 
-  post(data: any): void {
-    this.http.post('', data);
+  post(data: any): Observable<any> {
+    return this.http.post<Observable<any>>('https://httpbin.org/post', data);
   }
 
   getCep(cep: any): Observable<any> {
