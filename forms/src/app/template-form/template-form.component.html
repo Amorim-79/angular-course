@@ -1,0 +1,131 @@
+<form #formData="ngForm" (ngSubmit)="onSubmit(formData)">
+    <div class="form-group" [ngClass]="apllyCssError(name)">
+        <label for="name">Nome</label>
+        <input
+            type="text" 
+            class="form-control" 
+            id="name" 
+            name="name" 
+            placeholder="Nome"
+            required 
+            ngModel
+            #name="ngModel"
+        >
+    </div>
+    <div class="form-group" [ngClass]="apllyCssError(email)">
+        <label for="email">Email</label>
+        <input 
+            type="email" 
+            class="form-control" 
+            id="email" 
+            name="email" 
+            required 
+            placeholder="email@email.com" 
+            ngModel
+            #email="ngModel"
+        >
+    </div>
+
+    <div ngModelGroup="adress">
+        <div class="row">
+            <div class="form-group col-sm-3" [ngClass]="apllyCssError(cep)">
+                <label for="cep">CEP</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="cep" 
+                    name="cep" 
+                    required 
+                    placeholder="CEP" 
+                    (blur)="getAdress($event.target.value, formData)" 
+                    ngModel
+                    #cep="ngModel"
+                >
+            </div>
+            <div class="form-group col-sm-3" [ngClass]="apllyCssError(number)">
+                <label for="number">Número</label>
+                <input 
+                    type="number" 
+                    class="form-control" 
+                    id="number" 
+                    name="number" 
+                    required 
+                    placeholder="Número" 
+                    ngModel
+                    #number="ngModel"
+                >
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="complement">Complemento</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="complement" 
+                    name="complement" 
+                    placeholder="Complemento"
+                    ngModel
+                    #complement="ngModel"
+                >
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-12">
+                <label for="street">Logradouro</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="street" 
+                    name="street" 
+                    placeholder="Logradouro" 
+                    readonly 
+                    ngModel
+                    #street="ngModel"
+                >
+            </div>
+        </div>
+       
+        <div class="row">
+            <div class="form-group col-sm-5">
+                <label for="neighborhood">Bairro</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="neighborhood" 
+                    name="neighborhood" 
+                    placeholder="Bairro" 
+                    readonly 
+                    ngModel
+                    #neighborhood="ngModel"
+                >
+            </div>
+            <div class="form-group col-sm-5">
+                <label for="city">Cidade</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="city" 
+                    name="city" 
+                    placeholder="Cidade" 
+                    readonly 
+                    ngModel
+                    #city="ngModel"
+                >
+            </div>
+            <div class="form-group col-sm-2">
+                <label for="uf">UF</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="uf" 
+                    name="uf" 
+                    placeholder="UF" 
+                    readonly 
+                    ngModel
+                    #uf="ngModel"
+                >
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
