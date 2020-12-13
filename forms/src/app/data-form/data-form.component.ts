@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 import { FormsService } from './../template-form/forms.service';
 import { DropdownService } from './dropdown.service';
@@ -14,7 +15,7 @@ import { StateDataModel } from './state-data.model';
 export class DataFormComponent implements OnInit {
 
   form: FormGroup;
-  states: StateDataModel[];
+  states: Observable<StateDataModel[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,9 +23,11 @@ export class DataFormComponent implements OnInit {
     private dropDownService: DropdownService) { }
 
   ngOnInit(): void {
-    this.dropDownService.getBrazilStates().subscribe(data => {
-      this.states = data;
-    });
+    this.states = this.dropDownService.getBrazilStates();
+
+    // this.dropDownService.getBrazilStates().subscribe(data => {
+    //   this.states = data;
+    // });
 
     // this.form = new FormGroup({
     //   name: new FormControl(null),
