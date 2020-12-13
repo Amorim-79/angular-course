@@ -1,63 +1,54 @@
-<form #formData="ngForm" (ngSubmit)="onSubmit(formData)">
-    <div class="form-group" [ngClass]="applyCssError(name)">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group" [ngClass]="applyCssError('name')">
         <label for="name">Nome</label>
         <input
             type="text" 
             class="form-control" 
             id="name" 
-            name="name" 
+            formControlName="name" 
             placeholder="Nome"
             required 
-            ngModel
-            #name="ngModel"
         >
-        <app-message-error *ngIf="verifyValidTouched(name)" message="Campo de preenchimento Obrigatório"></app-message-error>
+        <app-message-error *ngIf="verifyValidTouched('name')" message="Campo de preenchimento Obrigatório"></app-message-error>
     </div>
-    <div class="form-group" [ngClass]="applyCssError(email)">
+    <div class="form-group" [ngClass]="applyCssError('email')">
         <label for="email">Email</label>
         <input 
             type="email" 
-            class="form-control"
-            id="email"
-            name="email"
-            required
+            class="form-control" 
+            id="email" 
+            formControlName="email" 
+            required 
             placeholder="email@email.com"
-            ngModel
-            #email="ngModel"
         >
-        <app-message-error *ngIf="verifyValidTouched(email)" message="Campo de preenchimento Obrigatório"></app-message-error>
+        <app-message-error *ngIf="verifyValidTouched('email')" message="Campo de preenchimento Obrigatório"></app-message-error>
     </div>
-
-    <div ngModelGroup="address">
+    <div formGroupName="address">
         <div class="row">
-            <div class="form-group col-sm-3" [ngClass]="applyCssError(cep)">
+            <div class="form-group col-sm-3" [ngClass]="applyCssError('address.cep')">
                 <label for="cep">CEP</label>
                 <input 
                     type="text" 
                     class="form-control" 
                     id="cep" 
-                    name="cep" 
+                    formControlName="cep" 
                     required 
-                    placeholder="CEP" 
-                    (blur)="getAdress($event.target.value, formData)" 
-                    ngModel
-                    #cep="ngModel"
+                    placeholder="CEP"
+                    (blur)="getAdress()"
                 >
-                <app-message-error *ngIf="verifyValidTouched(cep)" message="Campo de preenchimento Obrigatório"></app-message-error>
+                <app-message-error *ngIf="verifyValidTouched('address.cep')" message="Campo de preenchimento Obrigatório"></app-message-error>
             </div>
-            <div class="form-group col-sm-3" [ngClass]="applyCssError(number)">
+            <div class="form-group col-sm-3" [ngClass]="applyCssError('address.number')">
                 <label for="number">Número</label>
                 <input 
                     type="number" 
                     class="form-control" 
                     id="number" 
-                    name="number" 
+                    formControlName="number" 
                     required 
                     placeholder="Número" 
-                    ngModel
-                    #number="ngModel"
                 >
-                <app-message-error *ngIf="verifyValidTouched(number)" message="Campo de preenchimento Obrigatório"></app-message-error>
+                <app-message-error *ngIf="verifyValidTouched('address.number')" message="Campo de preenchimento Obrigatório"></app-message-error>
             </div>
             <div class="form-group col-sm-6">
                 <label for="complement">Complemento</label>
@@ -65,10 +56,8 @@
                     type="text" 
                     class="form-control" 
                     id="complement" 
-                    name="complement" 
+                    formControlName="complement" 
                     placeholder="Complemento"
-                    ngModel
-                    #complement="ngModel"
                 >
             </div>
         </div>
@@ -80,11 +69,9 @@
                     type="text" 
                     class="form-control" 
                     id="street" 
-                    name="street" 
+                    formControlName="street" 
                     placeholder="Logradouro" 
-                    readonly 
-                    ngModel
-                    #street="ngModel"
+                    readonly
                 >
             </div>
         </div>
@@ -96,11 +83,9 @@
                     type="text" 
                     class="form-control" 
                     id="neighborhood" 
-                    name="neighborhood" 
+                    formControlName="neighborhood" 
                     placeholder="Bairro" 
                     readonly 
-                    ngModel
-                    #neighborhood="ngModel"
                 >
             </div>
             <div class="form-group col-sm-5">
@@ -109,11 +94,9 @@
                     type="text" 
                     class="form-control" 
                     id="city" 
-                    name="city" 
+                    formControlName="city" 
                     placeholder="Cidade" 
                     readonly 
-                    ngModel
-                    #city="ngModel"
                 >
             </div>
             <div class="form-group col-sm-2">
@@ -122,14 +105,15 @@
                     type="text" 
                     class="form-control" 
                     id="uf" 
-                    name="uf" 
+                    formControlName="uf" 
                     placeholder="UF" 
                     readonly 
-                    ngModel
-                    #uf="ngModel"
                 >
             </div>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="!formData.valid">Enviar</button>
+    <div class="row justify-content-around m-3">
+        <button type="button" (click)="formReset()" class="btn btn-secondary col-4">Cancelar</button>
+        <button type="submit" class="btn btn-primary col-4">Enviar</button>
+    </div>
 </form>
