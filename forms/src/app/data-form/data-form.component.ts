@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+
+import { FormValidations } from './form-validations';
 
 import { FormsService } from './../template-form/forms.service';
 import { DropdownService } from './dropdown.service';
@@ -16,6 +18,10 @@ export class DataFormComponent implements OnInit {
 
   form: FormGroup;
   states: Observable<StateDataModel[]>;
+  positions: any[];
+  technologies: any[];
+  newsletter: any[];
+  frameworks = ['React', 'Angular', 'VueJS', 'Ionic'];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,6 +30,9 @@ export class DataFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.states = this.dropDownService.getBrazilStates();
+    this.positions = this.dropDownService.getPositions();
+    this.technologies = this.dropDownService.getTechnologies();
+    this.newsletter = this.dropDownService.getNewsletter();
 
     // this.dropDownService.getBrazilStates().subscribe(data => {
     //   this.states = data;
@@ -37,8 +46,14 @@ export class DataFormComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
+      confirmEmail: [null, [FormValidations.equalTo('email')]],
+      position: [null],
+      technology: [null],
+      newsletter: ['S'],
+      terms: [false, [Validators.pattern('true')]],
+      frameworks: this.buildFrameworks(),
       address: this.formBuilder.group({
-        cep: [null, [Validators.required]],
+        cep: [null, [Validators.required, FormValidations.cepValidator]],
         street: [null, [Validators.required]],
         complement: [null],
         number: [null, [Validators.required]],
@@ -49,7 +64,14 @@ export class DataFormComponent implements OnInit {
     });
   }
 
+  buildFrameworks(): any {
+    const values = this.frameworks.map(value => new FormControl(false));
+
+    return this.formBuilder.array(values, FormValidations.requiredMinCheckbox(1));
+  }
+
   onSubmit(): void {
+    console.log(this.form.value);
     if (this.form.valid) {
       this.formsService.post(JSON.stringify(this.form.value)).subscribe(() => {
         alert('Enviado com sucesso!');
@@ -94,9 +116,9 @@ export class DataFormComponent implements OnInit {
     let cep = this.form.get('address.cep').value;
 
     // Nova variável "cep" somente com dígitos.
-    cep = cep.replace(/\D/g, '');
 
     if (cep !== '') {
+      cep = cep.replace(/\D/g, '');
       // Expressão regular para validar o CEP.
       const validacep = /^[0-9]{8}$/;
 
