@@ -35,7 +35,7 @@ export class FormValidations {
                 throw new Error('É necessário informar um campo');
             }
 
-            if (!formControl.root || !formControl.root.controls) {
+            if (!formControl.root || !(formControl.root as FormGroup).controls) {
                 return null;
             }
 
@@ -51,5 +51,16 @@ export class FormValidations {
             return null;
         };
         return validator;
+      }
+
+      static getErrormessage(fieldName: string, validatorName: string, validatorValue?: any): any {
+        const config = {
+          required: `${fieldName} é obrigatório.`,
+          minlength: `${fieldName} precisa ter no mínimo ${validatorValue.requiredLength} caracteres.`,
+          maxlength: `${fieldName} precisa ter no máximo ${validatorValue.requiredLength} caracteres.`,
+          cepInvalid: 'CEP inválido',
+        };
+
+        return config[validatorName];
       }
 }

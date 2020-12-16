@@ -1,23 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
+import { BaseFormComponent } from './../shared/base-form/base-form.component';
 import { FormValidations } from './form-validations';
 
 import { FormsService } from './../template-form/forms.service';
 import { DropdownService } from './dropdown.service';
+import { VerifyEmailService } from './services/verify-email.service';
 
 import { StateDataModel } from './state-data.model';
+import { CityDataModel } from './city-data.model';
 
 @Component({
   selector: 'app-data-form',
   templateUrl: './data-form.component.html',
   styleUrls: ['./data-form.component.css']
 })
-export class DataFormComponent implements OnInit {
+export class DataFormComponent extends BaseFormComponent implements OnInit {
 
-  form: FormGroup;
-  states: Observable<StateDataModel[]>;
+  states: StateDataModel[];
+  cities: CityDataModel[];
   positions: any[];
   technologies: any[];
   newsletter: any[];
@@ -26,10 +30,18 @@ export class DataFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private formsService: FormsService,
-    private dropDownService: DropdownService) { }
+    private dropDownService: DropdownService,
+    private verifyEmailService: VerifyEmailService
+  ) {
+      super();
+    }
 
   ngOnInit(): void {
-    this.states = this.dropDownService.getBrazilStates();
+    // this.verifyEmailService.verifyEmail('email@email.com').subscribe(response => {
+    //   console.log(response);
+    // });
+
+    this.dropDownService.getBrazilStates().subscribe(data => this.states = data);
     this.positions = this.dropDownService.getPositions();
     this.technologies = this.dropDownService.getTechnologies();
     this.newsletter = this.dropDownService.getNewsletter();
@@ -44,8 +56,8 @@ export class DataFormComponent implements OnInit {
     // });
 
     this.form = this.formBuilder.group({
-      name: [null, [Validators.required]],
-      email: [null, [Validators.required, Validators.email]],
+      name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
+      email: [null, [Validators.required, Validators.email], [this.validEmail.bind(this)]],
       confirmEmail: [null, [FormValidations.equalTo('email')]],
       position: [null],
       technology: [null],
@@ -62,54 +74,35 @@ export class DataFormComponent implements OnInit {
         uf: [null, [Validators.required]],
       }),
     });
+
+    this.form.get('address.cep').statusChanges
+      .pipe(
+        distinctUntilChanged(),
+        switchMap(status => status === 'VALID' ? this.formsService.getCep(this.form.get('address.cep').value) : EMPTY)
+      ).subscribe(data => data ? this.formPopulate(data) : {});
+
+    this.form.get('address.uf').valueChanges
+      .pipe(
+        map(state => this.states.filter(item => item.sigla === state)),
+        map(states => states && states.length > 0 ? states[0].id : EMPTY ),
+        switchMap((idState: number) => this.dropDownService.getCities(idState)),
+      ).subscribe(cities => this.cities = cities);
   }
 
   buildFrameworks(): any {
-    const values = this.frameworks.map(value => new FormControl(false));
+    const values = this.frameworks.map(() => new FormControl(false));
 
     return this.formBuilder.array(values, FormValidations.requiredMinCheckbox(1));
   }
 
-  onSubmit(): void {
-    console.log(this.form.value);
-    if (this.form.valid) {
-      this.formsService.post(JSON.stringify(this.form.value)).subscribe(() => {
-        alert('Enviado com sucesso!');
-        this.formReset();
-      },
-      (error) => {
-        alert(error.message);
-      });
-    } else {
-      this.verifyValidForm(this.form);
-    }
-
-  }
-
-  verifyValidForm(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach((input: any) => {
-      const control = formGroup.get(input);
-      control.markAsTouched();
-
-      if (control instanceof FormGroup) {
-        this.verifyValidForm(control);
-      }
+  submit(): void {
+    this.formsService.post(JSON.stringify(this.form.value)).subscribe(() => {
+      alert('Enviado com sucesso!');
+      this.formReset();
+    },
+    (error) => {
+      alert(error.message);
     });
-  }
-
-  formReset(): void {
-    this.form.reset();
-  }
-
-  verifyValidTouched(input: any): any {
-    return !this.form.get(input).valid && this.form.get(input).touched;
-  }
-
-  applyCssError(input: any): any {
-    return {
-      'was-validated': this.verifyValidTouched(input),
-      'text-danger': this.verifyValidTouched(input),
-    };
   }
 
   getAdress(): any {
@@ -142,6 +135,12 @@ export class DataFormComponent implements OnInit {
         uf: data.uf,
       } ,
     });
+  }
+
+  validEmail(formControl: FormControl): any {
+    return this.verifyEmailService.verifyEmail(formControl.value).pipe(
+      map(response => response ? { emailExists: true } : null)
+    );
   }
 
 }

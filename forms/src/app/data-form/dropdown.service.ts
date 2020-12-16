@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { StateDataModel } from './state-data.model';
+import { CityDataModel } from './city-data.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +15,12 @@ export class DropdownService {
 
   getBrazilStates(): Observable<StateDataModel[]> {
     return this.http.get<StateDataModel[]>('assets/data/brstates.json');
+  }
+  getCities(idState: number): Observable<CityDataModel[]> {
+    return this.http.get<CityDataModel[]>('assets/data/cities.json')
+      .pipe(
+        map((cities: CityDataModel[]) => cities.filter(city => city.estado === idState))
+      );
   }
 
   getPositions(): any[] {
