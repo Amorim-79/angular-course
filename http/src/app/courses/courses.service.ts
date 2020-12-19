@@ -1,4 +1,4 @@
-import { delay } from 'rxjs/operators';
+import { delay, take } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -20,5 +20,11 @@ export class CoursesService {
       .pipe(
         delay(3000)
       );
+  }
+
+  create(course) {
+    return this.http.post(this.API, course).pipe(
+      take(1)
+    );
   }
 }
