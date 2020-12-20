@@ -22,9 +22,34 @@ export class CoursesService {
       );
   }
 
-  create(course) {
+  getById(id: number): Observable<ICourseDataModel> {
+    return this.http.get<ICourseDataModel>(`${this.API}/${id}`).pipe(
+      take(1)
+    )
+  }
+
+  private create(course) {
     return this.http.post(this.API, course).pipe(
       take(1)
+    );
+  }
+
+  private update(course) {
+    return this.http.put(`${this.API}/${course.id}`, course).pipe(
+      take(1)
+    );
+  }
+
+  save(course) {
+    if (course.id) {
+      return this.update(course);
+    }
+    return this.create(course);
+  }
+
+  remove(id: number) {
+    return this.http.delete(`${this.API}/${id}`).pipe(
+      take(1),
     );
   }
 }

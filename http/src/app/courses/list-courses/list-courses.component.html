@@ -23,11 +23,11 @@
             <td>{{ course.name }}</td>
             <td>
               <span class="float-right">
-                <button class="btn btn-outline-warning mb-1 btn-sm">
+                <button class="btn btn-outline-warning mb-1 btn-sm" (click)="onEdit(course.id)">
                   Atualizar
                 </button>
   
-                <button class="btn btn-outline-danger mb-1 btn-sm">
+                <button class="btn btn-outline-danger mb-1 btn-sm" (click)="onDelete(course)">
                   Remover
                 </button>
             </span>
@@ -44,3 +44,12 @@
       <ng-template #loading>
         <span>Carregando Cursos...</span>
       </ng-template>
+
+
+<ng-template #deleteModal>
+  <div class="modal-body text-center">
+    <p>Tem certeza que quer remover esse curso?</p>
+    <button type="button" class="btn btn-default" (click)="onDeclineDelete()" >Não</button>
+    <button type="button" class="btn btn-primary" (click)="onConfirmDelete()" >Sim</button>
+  </div>
+</ng-template>
