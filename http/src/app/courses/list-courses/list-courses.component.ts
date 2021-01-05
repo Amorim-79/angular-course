@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, EMPTY, Subject } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, take, switchMap } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { AlertModalService } from './../../shared/alert-modal.service';
@@ -59,20 +59,36 @@ export class ListCoursesComponent implements OnInit {
     this.router.navigate(['edit', id], { relativeTo: this.route });
   }
 
-  onDelete(course): void {
+  onDelete(course: ICourseDataModel): void {
     this.selectedCourse = course;
-    this.deleteModalRef = this.modalService.show(this.deleteModal, { class: 'modal-sm' });
+    // this.deleteModalRef = this.modalService.show(this.deleteModal, { class: 'modal-sm' });
+
+    const result$ = this.alertModalService.showConfirm('Confirmação', 'Tem certeza que deseja remover esse curso?');
+    result$.asObservable().pipe(
+      take(1),
+      switchMap(result => result ? this.coursesService.remove(course.id): EMPTY)
+    )
+    .subscribe(
+      success => {
+        this.alertModalService.showAlertSuccess('Curso apagado com sucesso');
+        this.onRefresh();
+      },
+      error => {
+        this.alertModalService.showAlertDanger('Erro ao apagar curso, tente novamente');
+      }
+    );
   }
 
   onConfirmDelete() {
-    this.coursesService.remove(this.selectedCourse.id).subscribe(() => {
-      this.deleteModalRef.hide();
-      this.alertModalService.showAlertSuccess('Curso apagado com sucesso');
-      this.onRefresh();
-    },
-    error => {
-      this.alertModalService.showAlertDanger('Erro ao apagar curso, tente novamente');
-    });
+    this.coursesService.remove(this.selectedCourse.id).subscribe(
+      success => {
+        this.alertModalService.showAlertSuccess('Curso apagado com sucesso');
+        this.onRefresh();
+      },
+      error => {
+        this.alertModalService.showAlertDanger('Erro ao apagar curso, tente novamente');
+      }
+    );
   }
 
   onDeclineDelete() {

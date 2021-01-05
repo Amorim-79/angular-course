@@ -5,12 +5,8 @@
       "name": "Angular"
     },
     {
-      "name": "Java",
-      "id": 2
-    },
-    {
       "id": 3,
-      "name": "PHP 6"
+      "name": "PHP 7"
     },
     {
       "id": 5,

@@ -2,8 +2,9 @@
   <a class="navbar-brand" routerLink="/">Http</a>
   <div class="navbar">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" routerLink="/">Home</a>
-      <a class="nav-item nav-link" routerLink="/courses">Cursos</a>
+      <a class="nav-item nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/">Home</a>
+      <a class="nav-item nav-link" routerLinkActive="active"  routerLink="/courses">Cursos</a>
+      <a class="nav-item nav-link" routerLinkActive="active" routerLink="/upload">Upload Arquivo</a>
     </div>
   </div>
 </nav>
