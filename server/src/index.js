@@ -14,10 +14,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(cors(corsOption));
 
 const multiPartyMiddleware = multiParty({ uploadDir: './uploads' });
+
 app.post('/upload', multiPartyMiddleware, (request, response) => {
     const files = request.files;
     console.log(files);
     response.json({ message: files });
+});
+
+app.get('/downloadExcel', (request, response) => {
+    response.download('./uploads/report.xlsx');
+});
+
+app.get('/downloadPDF', (request, response) => {
+    response.download('./uploads/report.pdf');
 });
 
 app.use((error, request, response, next) => {

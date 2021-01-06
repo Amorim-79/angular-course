@@ -10,7 +10,8 @@ import { UploadFileService } from './../upload-file.service';
 @Component({
   selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
-  styleUrls: ['./upload-file.component.css']
+  styleUrls: ['./upload-file.component.css'],
+  preserveWhitespaces: true,
 })
 export class UploadFileComponent implements OnInit {
 
@@ -55,6 +56,21 @@ export class UploadFileComponent implements OnInit {
         //   }
         // });
     }
+  }
+
+  onDownloadExcel(): void {
+    this.uploadService.download(environment.BASE_URL + '/downloadExcel')
+      .subscribe((response: any) => {
+        this.uploadService.handleFile(response, 'report.xlsx')
+      });
+        
+  }
+
+  onDownloadPDF(): void {
+    this.uploadService.download(environment.BASE_URL + '/downloadPDF')
+      .subscribe((response: any) => {
+        this.uploadService.handleFile(response, 'report.pdf')
+      });
   }
 
 }
