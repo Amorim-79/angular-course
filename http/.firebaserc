@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "angular-course-amorim": {
+      "hosting": {
+        "http": [
+          "angular-course-amorim"
+        ]
+      }
+    }
+  }
+}
